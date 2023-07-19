@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: [self-hosted,example]
+    runs-on: [self-hosted, example]
 
     strategy:
       matrix:
@@ -24,5 +24,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm ci --legacy-peer-deps
+      - run: npx sequelize-cli db:migrate:undo:all
+      - run: npx sequelize-cli db:migrate
       - run: npm run build --if-present
       - run: pm2 restart example
