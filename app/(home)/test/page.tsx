@@ -11,7 +11,7 @@ type Data = {
 const StartListeningButton = () => {
   const [readyToTap, setReadyToTap] = useState(false);
   const [rfid, setRfid] = useState("");
-  const socket = io("http://localhost:3001");
+  const socket = io("http://ec2-44-202-68-3.compute-1.amazonaws.com");
   socket.on("read-rfid", (data) => {
     const rfidData: Data = JSON.parse(data);
     setRfid(rfidData.rfid);

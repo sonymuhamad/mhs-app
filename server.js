@@ -7,13 +7,13 @@ const app = express();
 const httpServer = http.createServer(app);
 const io = socketIO(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "http://ec2-44-202-68-3.compute-1.amazonaws.com",
     methods: ["GET", "POST"],
   },
 });
 
 // Configure CORS to allow requests from the client-side origin
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: "http://ec2-44-202-68-3.compute-1.amazonaws.com" }));
 
 // Your Socket.IO server code goes here
 io.on("connection", (socket) => {
