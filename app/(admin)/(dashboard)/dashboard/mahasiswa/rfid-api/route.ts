@@ -12,7 +12,7 @@ export async function GET(req: Request) {
         nested: true,
       },
     });
-    return NextResponse.json({ ...mahasiswa });
+    return NextResponse.json(mahasiswa);
   }
 
   return NextResponse.json("mahasiswa not found");
