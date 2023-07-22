@@ -13,8 +13,9 @@ export async function GET(req: Request) {
     });
     const mahasiswa = mahasiswaList.find(({ rfid }) => rfid === idrfid);
     if (mahasiswa) {
-      console.log(mahasiswa);
-      return NextResponse.json(mahasiswa.toJSON());
+      const mhs = JSON.parse(mahasiswa.toJSON() as unknown as string);
+      console.log(mhs);
+      return NextResponse.json(mhs);
     } else {
       return NextResponse.json("mahasiswa not found");
     }
