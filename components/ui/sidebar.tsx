@@ -45,12 +45,23 @@ const Sidebar = () => {
             Mata Kuliah
           </Link>
         </li>
+        <li>
+          <Link
+            href="/dashboard/nilai"
+            className={clsx(
+              "block py-2 px-4 rounded hover:bg-gray-600",
+              pathName === "/dashboard/nilai" && "underline"
+            )}
+          >
+            Nilai
+          </Link>
+        </li>
       </ul>
 
       <div className="flex items-end h-3/4 pb-6">
         <Link
           href="/"
-          className={"block py-2 px-4 rounded hover:bg-red-500 w-64"}
+          className={"block py-2 px-4 rounded hover:bg-gray-500 w-64"}
         >
           Logout
         </Link>

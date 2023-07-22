@@ -6,5 +6,6 @@ namespace NodeJS {
     DATABASE_HOST: string;
     DATABASE_DIALEC: "mysql";
     DATABASE_USER: string;
+    BASE_SOCKET_URL: string;
   }
 }

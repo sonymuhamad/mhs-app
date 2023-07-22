@@ -14,3 +14,8 @@ export type EnumNilai =
   | "E"
   | "E+"
   | "E-";
+
+export enum Semester {
+  GENAP = "Genap",
+  GANJIL = "Ganjil",
+}

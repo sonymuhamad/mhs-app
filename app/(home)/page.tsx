@@ -1,9 +1,9 @@
-import Image from "next/image";
+import LoginForm from "@/components/separate/login-form";
 
-export default function Home() {
+export default function LoginPage() {
   return (
-    <main>
-      <h1>Main Page</h1>
-    </main>
+    <div className="flex items-center justify-center h-screen">
+      <LoginForm />
+    </div>
   );
 }

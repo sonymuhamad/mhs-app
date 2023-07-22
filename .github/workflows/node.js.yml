@@ -26,6 +26,7 @@ jobs:
       - run: npm ci --legacy-peer-deps
       - run: npx sequelize-cli db:migrate:undo:all
       - run: npx sequelize-cli db:migrate
+      - run: npx sequelize-cli db:seed:all
       - run: npm run build --if-present
       - run: pm2 restart socket-io-server
       - run: pm2 restart example
