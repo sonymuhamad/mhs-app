@@ -42,13 +42,16 @@ export default function NilaiPage() {
   useEffect(() => {
     const fetchMhs = async () => {
       const res = await fetch(`/dashboard/mahasiswa/rfid-api?rfid=${rfid}`);
+      console.log(res);
       const mahasiswa = await res.json();
+      console.log(typeof mahasiswa, "type");
+      console.log(mahasiswa);
       setMahasiswa(mahasiswa);
     };
 
     fetchMhs();
   }, [rfid]);
-
+  console.log(mahasiswa);
   return (
     <div className="p-4">
       {rfid === "" && (
@@ -72,7 +75,7 @@ export default function NilaiPage() {
         </div>
       )}
 
-      {mahasiswa && typeof mahasiswa !== "string" && (
+      {rfid !== "" && mahasiswa && typeof mahasiswa !== "string" && (
         <div>
           <div className="flex items-center mb-4">
             <div className="flex-shrink-0 w-32">
