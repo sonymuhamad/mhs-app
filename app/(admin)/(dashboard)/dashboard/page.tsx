@@ -72,7 +72,7 @@ export default function NilaiPage() {
         </div>
       )}
 
-      {mahasiswa && (
+      {mahasiswa && typeof mahasiswa !== "string" && (
         <div>
           <div className="flex items-center mb-4">
             <div className="flex-shrink-0 w-32">
