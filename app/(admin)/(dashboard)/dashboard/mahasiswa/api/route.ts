@@ -20,7 +20,7 @@ export async function GET(req: Request) {
   const id = searchParams.get("id");
   if (id) {
     const mahasiswa = await Mahasiswa.findByPk(id);
-    return NextResponse.json({ ...mahasiswa });
+    return NextResponse.json(mahasiswa);
   }
   const mahasiswaList = await Mahasiswa.findAll({
     include: {
