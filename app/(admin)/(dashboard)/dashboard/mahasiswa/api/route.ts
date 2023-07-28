@@ -19,7 +19,13 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
   if (id) {
-    const mahasiswa = await Mahasiswa.findByPk(id);
+    const mahasiswa = await Mahasiswa.findOne({
+      where:{id_mahasiswa:id},
+      include: {
+        all: true,
+        nested: true,
+      }
+    });
     return NextResponse.json(mahasiswa);
   }
   const mahasiswaList = await Mahasiswa.findAll({

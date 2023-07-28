@@ -4,19 +4,13 @@ import { useState, useEffect } from "react";
 import { MatakuliahType } from "@/models/Model";
 import { Button, Pagination } from "@mantine/core";
 import Link from "next/link";
-
-const PAGE_SIZE = 10; // Number of items per page
+import usePagination from "@/hooks/usePagination";
 
 export default function MatkulPage() {
   const [matkulList, setMatkulList] = useState<MatakuliahType[]>([]);
   const [action, setAction] = useState(0);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const startIndex = (currentPage - 1) * PAGE_SIZE;
-  const endIndex = startIndex + PAGE_SIZE;
-  const currentPageData = matkulList.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(matkulList.length / PAGE_SIZE);
-
+  const {currentPage,currentPageData,setCurrentPage,totalPages} = usePagination<MatakuliahType>({data:matkulList})
+  
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch("/dashboard/matkul/api");

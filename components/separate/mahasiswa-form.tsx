@@ -4,6 +4,11 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ProdiType } from "@/models/Model";
 
+import io from "socket.io-client";
+type Data = {
+  rfid: string;
+};
+
 const MahasiswaForm: React.FC = () => {
   const [formData, setFormData] = useState({
     nama: "",
@@ -15,6 +20,12 @@ const MahasiswaForm: React.FC = () => {
   });
   const [prodiList, setProdiList] = useState<ProdiType[]>([]);
   const router = useRouter();
+
+  const socket = io(process.env.BASE_SOCKET_URL);
+  socket.on("read-rfid", (data) => {
+    const rfidData: Data = JSON.parse(data);
+    setFormData(prev=>({...prev,rfid:rfidData.rfid}))
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -106,6 +117,7 @@ const MahasiswaForm: React.FC = () => {
             }}
             value={formData.prodi_id}
           >
+           <option value={undefined}>Pilih Prodi</option>
             {prodiList.map(({ id_prodi, nama_prodi }) => {
               return (
                 <option key={id_prodi} value={id_prodi}>
@@ -153,22 +165,22 @@ const MahasiswaForm: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label
-            htmlFor="rfid"
-            className="block text-sm font-medium text-gray-700"
-          >
-            RFID:
-          </label>
-          <input
-            type="text"
-            id="rfid"
-            name="rfid"
-            value={formData.rfid}
-            onChange={handleChange}
-            required
-            className="border border-gray-300 p-2 rounded w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+  <label
+    htmlFor="rfid"
+    className="block text-sm font-medium text-gray-700"
+    >
+    RFID:
+  </label>
+  <input
+    type="text"
+    id="rfid"
+    name="rfid"
+    value={formData.rfid}
+    readOnly
+    className="border border-gray-300 p-2 rounded w-full mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+</div>
+
 
         <button
           type="submit"

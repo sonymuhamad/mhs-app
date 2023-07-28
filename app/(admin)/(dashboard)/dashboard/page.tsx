@@ -5,21 +5,9 @@ import { UserCircleIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import io from "socket.io-client";
 
-import {
-  MahasiswaType,
-  NilaiType,
-  ProdiType,
-  MatakuliahType,
-} from "@/models/Model";
-
-type ExtendedNilai = NilaiType & {
-  Matakuliah: MatakuliahType;
-};
-
-type ExtendedMahasiswa = MahasiswaType & {
-  Nilais: ExtendedNilai[];
-  Prodi: ProdiType;
-};
+import { ExtendedMahasiswa,ExtendedNilai } from "@/types/mhs";
+import { Pagination } from "@mantine/core";
+import usePagination from "@/hooks/usePagination";
 
 type Data = {
   rfid: string;
@@ -28,7 +16,8 @@ export default function NilaiPage() {
   const [readyToTap, setReadyToTap] = useState(false);
   const [rfid, setRfid] = useState("");
   const [mahasiswa, setMahasiswa] = useState<null | ExtendedMahasiswa>(null);
-
+  const {currentPage,currentPageData,setCurrentPage,totalPages} = usePagination<ExtendedNilai>({data:mahasiswa?.Nilais??[]})
+  
   const socket = io(process.env.BASE_SOCKET_URL);
   socket.on("read-rfid", (data) => {
     const rfidData: Data = JSON.parse(data);
@@ -42,16 +31,13 @@ export default function NilaiPage() {
   useEffect(() => {
     const fetchMhs = async () => {
       const res = await fetch(`/dashboard/mahasiswa/rfid-api?rfid=${rfid}`);
-      console.log(res);
       const mahasiswa = await res.json();
-      console.log(typeof mahasiswa, "type");
-      console.log(mahasiswa);
       setMahasiswa(mahasiswa);
     };
 
     fetchMhs();
   }, [rfid]);
-  console.log(mahasiswa);
+
   return (
     <div className="p-4">
       {rfid === "" && (
@@ -76,7 +62,7 @@ export default function NilaiPage() {
       )}
 
       {rfid !== "" && mahasiswa && typeof mahasiswa !== "string" && (
-        <div>
+        <div className="space-y-4" >
           <div className="flex items-center mb-4">
             <div className="flex-shrink-0 w-32">
               <UserCircleIcon className="w-24 h-24" />
@@ -102,7 +88,7 @@ export default function NilaiPage() {
               </tr>
             </thead>
             <tbody>
-              {mahasiswa.Nilais.map((nilai) => (
+              {currentPageData.map((nilai) => (
                 <tr key={nilai.Matakuliah.kode}>
                   <td className="border p-2">{nilai.Matakuliah.nama}</td>
                   <td className="border p-2">{nilai.Matakuliah.kode}</td>
@@ -113,6 +99,11 @@ export default function NilaiPage() {
               ))}
             </tbody>
           </table>
+          <Pagination
+        total={totalPages}
+        onChange={setCurrentPage}
+        value={currentPage}
+      />
         </div>
       )}
     </div>

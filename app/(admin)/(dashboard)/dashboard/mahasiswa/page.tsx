@@ -2,15 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import clsx from "clsx";
 import { MahasiswaType } from "@/models/Model";
-import { usePathname } from "next/navigation";
 import { Button } from "@mantine/core";
+import usePagination from "@/hooks/usePagination";
+import { Pagination } from "@mantine/core";
 
 export default function MahasiswaPage() {
   const [mahasiswaList, setMahasiswaList] = useState<MahasiswaType[]>([]);
   const [action, setAction] = useState(0);
-  const pathName = usePathname();
+  const {currentPageData,setCurrentPage,totalPages,currentPage} = usePagination<MahasiswaType>({data:mahasiswaList})
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +31,15 @@ export default function MahasiswaPage() {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 space-y-4">
+         <div className="flex justify-end">
+        <Link
+          href="/dashboard/mahasiswa/tambah"
+          className={"block py-2 px-4 rounded hover:bg-gray-600"}
+        >
+          Tambah
+        </Link>
+      </div>
       <table className="w-full border-collapse border">
         <thead className="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -44,7 +52,7 @@ export default function MahasiswaPage() {
           </tr>
         </thead>
         <tbody>
-          {mahasiswaList.map(
+          {currentPageData.map(
             ({ id_mahasiswa, nama, nim, kelas, tahun, rfid }) => (
               <tr key={id_mahasiswa}>
                 <td className="border p-2">{nama}</td>
@@ -66,18 +74,11 @@ export default function MahasiswaPage() {
           )}
         </tbody>
       </table>
-
-      <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-        <Link
-          href="/dashboard/mahasiswa/tambah"
-          className={clsx(
-            "block py-2 px-4 rounded hover:bg-gray-600",
-            pathName === "/dashboard" && "underline"
-          )}
-        >
-          Tambah
-        </Link>
-      </div>
+      <Pagination
+        total={totalPages}
+        onChange={setCurrentPage}
+        value={currentPage}
+      />
     </div>
   );
 }
