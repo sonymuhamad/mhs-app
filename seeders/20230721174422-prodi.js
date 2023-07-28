@@ -5,13 +5,16 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     const prodi = [
       {
-        nama_prodi: "Sistem Informasi",
+        nama_prodi: "Matematika",
       },
       {
-        nama_prodi: "Manajemen Informatika",
+        nama_prodi: "Teknik Informatika",
       },
       {
-        nama_prodi: "Psikologi",
+        nama_prodi: "Teknik Industri",
+      },
+      {
+        nama_prodi: "Teknik Mesin",
       },
     ];
     await queryInterface.bulkInsert("Prodis", prodi, {});
