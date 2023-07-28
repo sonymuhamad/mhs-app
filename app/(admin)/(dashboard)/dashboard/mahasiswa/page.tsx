@@ -48,6 +48,7 @@ export default function MahasiswaPage() {
             <th className="border p-2">Kelas</th>
             <th className="border p-2">Tahun</th>
             <th className="border p-2">RFID</th>
+            <th className="border p-2">delete</th>
             <th className="border p-2"></th>
           </tr>
         </thead>
